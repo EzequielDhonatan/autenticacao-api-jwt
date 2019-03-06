@@ -21,6 +21,9 @@ route::resource('categories', 'Api\CategoryController', [
 ]);
 */
 
+// # JWT Auth
+route::post('auth', 'Auth\AuthApiController@authenticate');
+
 route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function() {
 
     // # CATEGORY
