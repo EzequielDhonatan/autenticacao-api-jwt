@@ -77,5 +77,13 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+
+        /**
+         * JWT Auth: 
+         * https://github.com/tymondesigns/jwt-auth
+         * https://jwt-auth.readthedocs.io/en/develop/laravel-installation/
+         */
+        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+	    'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 }

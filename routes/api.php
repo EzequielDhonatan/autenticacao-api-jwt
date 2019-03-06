@@ -26,7 +26,11 @@ route::post('auth', 'Auth\AuthApiController@authenticate'); // AUTENCTICAÇÃO
 route::post('auth-refresh', 'Auth\AuthApiController@refresh'); // ATUALIZAÇÃO DO TOKEN
 route::get('me', 'Auth\AuthApiController@getAuthenticatedUser'); // RECUPERAR USUÁRIO
 
-route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function() {
+route::group([
+    'prefix'        => 'v1', 
+    'namespace'     => 'Api\V1',
+    'middleware'    => 'auth:api'
+], function() {
 
     // # CATEGORY
     route::get('categories/{id}/products', 'CategoryController@products');
