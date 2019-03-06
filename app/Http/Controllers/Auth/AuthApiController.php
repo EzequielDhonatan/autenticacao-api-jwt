@@ -59,4 +59,18 @@ class AuthApiController extends Controller
         return response()->json(compact('user'));
     }
 
+    public function refresh()
+    {
+        if (!$token = JWTAuth::getToken())
+            return response()->json(['error' => 'token_not_send'], 401);
+
+        try {
+            $token = JWTAuth::refresh();
+        } catch (TokenInvalidException $e) {
+            return response()->json(['token_invalid'], $e->getStatusCode());
+        }
+        
+        return response()->json(compact('token'));
+    }
+
 }

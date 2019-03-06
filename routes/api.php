@@ -22,8 +22,9 @@ route::resource('categories', 'Api\CategoryController', [
 */
 
 // # JWT Auth
-route::post('auth', 'Auth\AuthApiController@authenticate');
-route::get('me', 'Auth\AuthApiController@getAuthenticatedUser');
+route::post('auth', 'Auth\AuthApiController@authenticate'); // AUTENCTICAÇÃO
+route::post('auth-refresh', 'Auth\AuthApiController@refresh'); // ATUALIZAÇÃO DO TOKEN
+route::get('me', 'Auth\AuthApiController@getAuthenticatedUser'); // RECUPERAR USUÁRIO
 
 route::group(['prefix' => 'v1', 'namespace' => 'Api\V1'], function() {
 
