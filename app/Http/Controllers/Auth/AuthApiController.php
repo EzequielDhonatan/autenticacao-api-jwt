@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions;
 
 class AuthApiController extends Controller
 {
@@ -24,7 +25,38 @@ class AuthApiController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
+        // Get user authenticated
+        $user = auth()->user();
+
         // all good so return the token
-        return response()->json(compact('token'));
+        return response()->json(compact('token', 'user'));
     }
+
+    // somewhere in your controller
+    public function getAuthenticatedUser()
+    {
+        try {
+
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+
+        } catch (TokenExpiredException $e) {
+
+            return response()->json(['token_expired'], $e->getStatusCode());
+
+        } catch (TokenInvalidException $e) {
+
+            return response()->json(['token_invalid'], $e->getStatusCode());
+
+        } catch (JWTException $e) {
+
+            return response()->json(['token_absent'], $e->getStatusCode());
+
+        }
+
+        // the token is valid and we have found the user via the sub claim
+        return response()->json(compact('user'));
+    }
+
 }
